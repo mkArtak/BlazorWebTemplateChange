@@ -32,7 +32,7 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 // Expose the weather forecast API
-app.MapGet("/api/weather", async ([FromServices] WeatherForecastService wfs) => await wfs.GetWeatherForecastAsync());
+app.MapGet("/api/weather", async (WeatherForecastService wfs) => await wfs.GetWeatherForecastAsync());
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
