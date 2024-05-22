@@ -1,11 +1,16 @@
 using BlazorWebService.Client.Pages;
 using BlazorWebService.Components;
+using BlazorWebService.Services;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+// Register services required by the application
+builder.Services.AddScoped<WeatherForecastService>();
 
 var app = builder.Build();
 
@@ -25,6 +30,9 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+// Expose the weather forecast API
+app.MapGet("/api/weather", async (WeatherForecastService wfs) => await wfs.GetWeatherForecastAsync());
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
